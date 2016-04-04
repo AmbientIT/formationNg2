@@ -1,0 +1,6 @@
+{
+  "basePath": "http://localhost:3001/auth",
+  "tokenName": "auth-token",
+  "loginUrl": "/login",
+  "signupUrl": "/signup"
+}
