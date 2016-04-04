@@ -119,6 +119,7 @@
     "phantomjs-polyfill": "0.0.2",
     "phantomjs-prebuilt": "^2.1.6",
     "protractor": "^3.1.1",
+    "ramda": "^0.20.1",
     "raw-loader": "0.5.1",
     "remap-istanbul": "^0.5.1",
     "request-promise": "^2.0.1",

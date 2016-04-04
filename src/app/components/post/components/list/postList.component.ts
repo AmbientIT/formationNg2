@@ -10,16 +10,14 @@ import {PostListItem} from './postListItem/postListItem.component';
   styles: [require('./postList.css')],
   directives: [PostListItem]
 })
-export class PostList{
-  posts: Observable<Post[]>;
-  constructor(private _postDao: PostDao) {}
+export class PostList {
+  posts: Observable<Post[]>
 
-  destroyPost(post) {
-    this._postDao.destroy(post);
+  constructor(private postDao: PostDao) {
+    this.posts = postDao.findAll()
   }
 
-  ngOnInit() {
-    this.posts = this._postDao.posts$;
-    this._postDao.findAll();
+  destroyPost(post) {
+    this.postDao.destroy(post);
   }
 }
