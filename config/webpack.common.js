@@ -94,7 +94,8 @@ module.exports = {
         exclude: [
           // these packages have problems with their sourcemaps
           helpers.root('node_modules/rxjs'),
-          helpers.root('node_modules/@angular2-material')
+          helpers.root('node_modules/@angular2-material'),
+          helpers.root('node_modules/ng2-material')
         ]
       }
 
@@ -134,6 +135,15 @@ module.exports = {
         loader: 'raw-loader'
       },
 
+      // Raw loader support for *.scss files
+      // Returns file content as string
+      //
+      // See: https://github.com/webpack/raw-loader
+      {
+        test: /\.scss$/,
+        loaders: ['raw-loader', 'sass-loader']
+      },
+
       // Raw loader support for *.html
       // Returns file content as string
       //
@@ -143,6 +153,12 @@ module.exports = {
         loader: 'raw-loader',
         exclude: [helpers.root('src/index.html')]
       },
+
+      //font file
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file?name=public/fonts/[name].[ext]'
+      }
 
     ]
 

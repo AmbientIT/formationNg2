@@ -1,0 +1,23 @@
+<form [ngFormModel]="postForm" (ngSubmit)="save(postForm.value)">
+    <md-input-container class="md-block">
+      <label>Title</label>
+      <input md-input ngControl="title" value="{{post.title}}">
+      <div md-messages="title">
+        <div md-message="required">The title is required.</div>
+        <div md-message="maxlength">The title has to be less than 30 characters long.</div>
+      </div>
+    </md-input-container>
+    <md-input-container class="md-block">
+      <label>Body</label>
+      <input md-input ngControl="body" value="{{post.body}}"/>
+      <div md-messages="body">
+        <div md-message="required">The body is required.</div>
+        <div md-message="maxlength">The body has to be less than 1000 characters long.</div>
+        <div md-message="minlength">The body has to be more than 30 characters long.</div>
+      </div>
+    </md-input-container>
+  <div layout="row" layout-align="end center">
+    <button md-button type="submit">Submit</button>
+    <button md-button type="cancel">Cancel</button>
+  </div>
+</form>

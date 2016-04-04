@@ -1,17 +1,25 @@
 import {Component} from 'angular2/core';
-import {PostDao} from '../../../common/model/postDao.service'
+import {Observable} from 'rxjs/Observable';
+import {PostDao} from '../../model/postDao.service';
+import {Post} from '../../model/post.interface';
+import {PostListItem} from './postListItem/postListItem.component';
 
 @Component({
-  selector: 'postList',
+  selector: 'post-list',
   template: require('./postList.html'),
-  providers: [PostDao]
+  styles: [require('./postList.css')],
+  directives: [PostListItem]
 })
 export class PostList{
-  posts: any;
+  posts: Observable<Post[]>;
   constructor(private _postDao: PostDao) {}
+
+  destroyPost(post) {
+    this._postDao.destroy(post);
+  }
 
   ngOnInit() {
     this.posts = this._postDao.posts$;
-    this._postDao.loadPosts();
+    this._postDao.findAll();
   }
 }

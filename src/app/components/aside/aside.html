@@ -1,0 +1,32 @@
+<md-toolbar class="md-theme-indigo">
+  <div class="md-toolbar-tools" layout="row">
+    <span flex>menu</span>
+    <button md-button class="md-icon-button" aria-label="Settings" (click)="close('left')">
+      <i md-icon>menu</i>
+    </button>
+  </div>
+</md-toolbar>
+<md-content>
+  <nav layout="column" class="my-nav">
+    <div router-active>
+      <button md-button [routerLink]=" ['Auth'] ">
+        Login
+      </button>
+    </div>
+    <div router-active>
+      <button md-button [routerLink]=" ['Home'] ">
+        Home
+      </button>
+    </div>
+    <div router-active>
+      <button md-button [routerLink]=" ['About'] ">
+        About
+      </button>
+    </div>
+    <div router-active>
+      <button md-button [routerLink]=" ['Post'] ">
+        Post
+      </button>
+    </div>
+  </nav>
+</md-content>

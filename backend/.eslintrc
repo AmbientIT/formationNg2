@@ -1,12 +1,9 @@
 {
   "extends": "eslint:recommended",
   "parser": "babel-eslint",
-  "plugins": ["angular"],
   "env": {
     "node": true,
-    "es6": true,
-    "jasmine": true,
-    "browser": true
+    "es6": true
   },
   "rules": {
     "angular/module-getter": 0,

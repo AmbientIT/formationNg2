@@ -1,0 +1,16 @@
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <span class="md-headline">{{ post.title }}</span>
+      <span class="md-subhead" *ngIf="post.user">{{ post.user.username }}</span>
+    </md-card-title-text>
+    <md-card-title-media *ngIf="post.user">
+      <img class="card-media md-media-sm" src="{{ post.user.avatar }}">
+    </md-card-title-media>
+  </md-card-title>
+  <md-card-actions layout="row" layout-align="end center">
+    <button md-button (click)="destroy($event)">Remove</button>
+    <button md-button (click)="edit(post.id)">Edit</button>
+    <button md-button>detail</button>
+  </md-card-actions>
+</md-card>

@@ -3,6 +3,9 @@
 // at the entry point of the async loaded file. Also see custom-typings.d.ts as you also need to
 // run `typings install x` where `x` is your module
 
+import '!style!css!ng2-material/dist/ng2-material.css';
+import '!style!css!ng2-material/dist/font.css';
+
 // Angular 2
 import 'angular2/platform/browser';
 import 'angular2/platform/common_dom';
@@ -12,8 +15,7 @@ import 'angular2/http';
 import 'angular2/router';
 
 // RxJS
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
+import 'rxjs/Rx';
 
 // Angular 2 Material 2
 // TODO(gdi2290): uncomment when material is fixed

@@ -1,6 +1,8 @@
 /*
  * Providers provided by Angular
  */
+import {ComponentRef} from 'angular2/core';
+
 import {bootstrap} from 'angular2/platform/browser';
 /*
 * Platform and Environment
@@ -16,6 +18,12 @@ import {ENV_PROVIDERS} from './platform/environment';
 import {App, APP_PROVIDERS} from './app';
 
 /*
+ * Store the app Injector
+ */
+import {appInjector} from './app/app.injector';
+
+
+/*
  * Bootstrap our Angular app with a top level component `App` and inject
  * our Services and Providers into Angular's dependency injection
  */
@@ -28,7 +36,10 @@ export function main(initialHmrState?: any): Promise<any> {
     ...PIPES,
     ...APP_PROVIDERS,
   ])
-  .catch(err => console.error(err));
+    .then((appRef: ComponentRef) => {
+      appInjector(appRef.injector)
+    })
+    .catch(err => console.error(err));
 
 }
 

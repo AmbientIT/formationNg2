@@ -1,23 +1,32 @@
-'use strict'
+import path from 'path'
+const mockPath = path.resolve(__dirname, '../../mockData/user.json')
+import fs from 'fs-promise'
+import middleware from 'koa-router'
 
-const findWhere = require('lodash.findwhere')
-const mockPath = './gulp/server/mockData/user.json'
-const fs = require('fs-promise')
+const router = middleware()
 
-module.exports = (server) => {
-  server.get('/isAvailable/:email', (req, res) => {
-    fs.readJson(mockPath)
-      .then(users => {
-        const user = findWhere(users, {
-          email: req.params.email,
-        })
-        if (user) {
-          res.status(400).json({
-            message: 'email is not availlable',
-          })
-        } else {
-          res.send()
-        }
+module.exports = (app) => {
+  router.get('/isAvailable/:email', async ctx => {
+    console.log(ctx)
+    try {
+      const users = await fs.readJson(mockPath)
+      const user = users.find(item => {
+        return item.email === ctx.params.email
       })
+      if (user) {
+        ctx.status = 400
+        this.body = {
+          message: 'email is not availlable',
+        }
+      } else {
+        ctx.status = 200
+        ctx.body = ''
+      }
+    } catch (err) {
+      ctx.status = 500
+      ctx.body = err
+    }
   })
+  app.use(router.routes())
+  app.use(router.allowedMethods())
 }

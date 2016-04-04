@@ -1,3 +1,16 @@
-<div *ngFor="#post of posts | async">
-  {{ post.title }}
-</div>
+<md-toolbar >
+  <div class="md-toolbar-tools">
+  <span flex>
+    Post list
+  </span>
+    <button md-fab [routerLink]=" ['PostCreate']">
+      <i md-icon>plus</i>
+    </button>
+  </div>
+</md-toolbar>
+<md-content>
+  <div *ngFor="#post of posts | async">
+    <post-list-item [post]="post" (destroyPost)="destroyPost($event)"></post-list-item>
+  </div>
+</md-content>
+

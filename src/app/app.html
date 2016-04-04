@@ -1,0 +1,25 @@
+<div layout="column">
+  <md-sidenav-container layout="row" flex>
+    <md-sidenav name="left" [style]="hasMedia('gt-sm') ? 'side' : 'over'">
+      <my-aside></my-aside>
+    </md-sidenav>
+    <main flex layout="column">
+      <md-toolbar>
+        <div class="md-toolbar-tools" layout="row">
+          <button md-button class="md-icon-button" aria-label="Settings" (click)="open('left')">
+            <i md-icon>menu</i>
+          </button>
+        </div>
+      </md-toolbar>
+      <md-content flex>
+        <router-outlet></router-outlet>
+        <footer>
+          WebPack Angular 2 Starter by <a [href]="url">@AngularClass</a>
+          <div>
+            <img [src]="angularclassLogo" width="10%">
+          </div>
+        </footer>
+      </md-content>
+    </main>
+  </md-sidenav-container>
+</div>

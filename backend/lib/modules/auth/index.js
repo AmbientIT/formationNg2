@@ -1,21 +1,25 @@
+import path from 'path'
 import jwt from 'jwt-simple'
 import fs from 'fs-promise'
 import {config, ensureAuthenticated, generateToken} from './lib/utils'
-
+import middleware from 'koa-router'
 import qs from 'querystring'
 import request from 'request-promise'
-const mockPath = './gulp/server/mockData/user.json'
+const mockPath = path.resolve(__dirname, '../../mockData/users.json')
 
-module.exports = (server) => {
-  server.post('/auth/signup', async (ctx) => {
+const router = middleware()
+
+module.exports = (app) => {
+  router.post('/auth/signup', async (ctx) => {
+    console.log(ctx.request)
     try {
       const users = await fs.readJson(mockPath)
-      ctx.req.body.id = users.length
-      users.push(ctx.req.body)
+      ctx.request.body.id = users.length
+      users.push(ctx.request.body)
       await fs.outputJson(mockPath, users)
       ctx.body = {
-        token: jwt.encode(ctx.req.body, config.TOKEN_SECRET),
-        user: ctx.req.body,
+        token: jwt.encode(ctx.request.body, config.TOKEN_SECRET),
+        user: ctx.request.body,
       }
     } catch (err) {
       console.error(err)
@@ -24,14 +28,17 @@ module.exports = (server) => {
     }
   })
 
-  server.post('/auth/login', async (ctx) => {
+  router.post('/auth/login', async (ctx) => {
     try {
+      if (!ctx.request.body.email || !ctx.request.body.email) {
+        throw new Error('you must specify email and password')
+      }
       const users = await fs.readJson(mockPath)
       const user = users.find(mappedUser => {
-        return ctx.req.body.email === mappedUser.email
+        return ctx.request.body.email === mappedUser.email
       })
       if (user) {
-        if (user.password === ctx.req.body.password) {
+        if (user.password === ctx.request.body.password) {
           delete user.password
           const token = generateToken(user)
           ctx.body = {
@@ -57,15 +64,15 @@ module.exports = (server) => {
     }
   })
 
-  server.post('/auth/github', async (ctx) => {
+  router.post('/auth/github', async (ctx) => {
     const accessTokenUrl = 'https://github.com/login/oauth/access_token'
     const userApiUrl = 'https://api.github.com/user'
     /*eslint camelcase:0*/
     const params = {
-      code: ctx.body.code,
-      client_id: ctx.req.body.clientId,
+      code: ctx.request.body.code,
+      client_id: ctx.request.body.clientId,
       client_secret: config.GITHUB_SECRET,
-      redirect_uri: ctx.req.body.redirectUri,
+      redirect_uri: ctx.request.body.redirectUri,
     }
 
     // Step 1. Exchange authorization code for access token.
@@ -78,7 +85,7 @@ module.exports = (server) => {
     ])
     const profile = authData[0]
     const users = authData[1]
-    if (ctx.req.headers.authorization) {
+    if (ctx.request.headers.authorization) {
       const existingUser = users.find(mappedUser => {
         return mappedUser.github === profile.id
       })
@@ -89,7 +96,7 @@ module.exports = (server) => {
         }
         return
       }
-      const token = ctx.req.headers.authorization.split(' ')[1]
+      const token = ctx.request.headers.authorization.split(' ')[1]
       const payload = jwt.decode(token, config.TOKEN_SECRET)
       if (!payload.user) {
         ctx.status = 400
@@ -138,7 +145,10 @@ module.exports = (server) => {
     }
   })
 
-  server.get('/auth/me', ensureAuthenticated, (req, res) => {
-    res.json(req.user)
+  router.get('/auth/me', ensureAuthenticated, (ctx) => {
+    ctx.body = ctx.user
   })
+
+  app.use(router.routes())
+  app.use(router.allowedMethods())
 }

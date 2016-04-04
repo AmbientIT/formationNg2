@@ -1,7 +1,5 @@
-'use strict'
-
-const jwt = require('jwt-simple')
-const moment = require('moment')
+import jwt from 'jwt-simple'
+import moment from 'moment'
 
 const config = {
   tokenDurationInSecond: '10000000',
@@ -22,26 +20,34 @@ const config = {
 }
 
 
-function ensureAuthenticated(req, res, next) {
-  if (!req.headers.authorization) {
-    return res.status(401).send({ message: 'Please make sure your request has an Authorization header' })
+const ensureAuthenticated = (ctx, next) => {
+  if (!ctx.request.headers.authorization) {
+    ctx.status = 401
+    ctx.body = {
+      message: 'Please make sure your request has an Authorization header' 
+    }
+    return
   }
-  var token = req.headers.authorization.split(' ')[1]
+  var token = ctx.request.headers.authorization.split(' ')[1]
 
   var payload = null
   try {
     payload = jwt.decode(token, config.TOKEN_SECRET)
   } catch (err) {
-    return res.status(401).json({
+    ctx.status = 401
+    ctx.body = {
       message: 'invalid token',
-    })
+    }
+    return
   }
   if (payload.exp < moment().unix) {
-    return res.status('401').json({
+    ctx.status = 401
+    ctx.body = {
       message: 'token expired',
-    })
+    }
+    return
   }
-  req.user = payload.user
+  ctx.user = payload.user
   next()
 }
 
@@ -54,7 +60,8 @@ function generateToken(user) {
   return jwt.encode(payload, config.TOKEN_SECRET)
 }
 
-module.exports = {
+
+export {
   ensureAuthenticated,
   config,
   generateToken,
