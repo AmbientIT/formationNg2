@@ -1,6 +1,6 @@
 import {Injectable} from 'angular2/core'
 import {Http, Headers} from 'angular2/http'
-import {AuthConfig} from '../config/index'
+import {AuthConfig} from './config/index'
 import {Observable} from 'rxjs/Observable';
 import {Observer} from 'rxjs/Observer';
 

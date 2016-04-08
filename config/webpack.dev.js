@@ -99,6 +99,11 @@ module.exports = webpackMerge(commonConfig, {
     failOnHint: false,
     resourcePath: 'src'
   },
+  resolve: {
+    alias: {
+      'model': helpers.root('src/app/model')
+    }
+  },
 
   // Webpack Development Server configuration
   // Description: The webpack-dev-server is a little node.js Express server.

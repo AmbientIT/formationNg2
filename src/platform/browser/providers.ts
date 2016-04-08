@@ -13,9 +13,12 @@ import {HTTP_PROVIDERS} from 'angular2/http';
 // Angular 2 Router
 import {ROUTER_PROVIDERS, LocationStrategy, PathLocationStrategy} from 'angular2/router';
 
-import { MATERIAL_PROVIDERS } from "ng2-material/all";
+import { MATERIAL_PROVIDERS } from 'ng2-material/all';
+
+import {API_PROVIDERS} from '../../app/model'
+
+
 import {Config} from '../../app/config'
-import {PostDao} from '../../app/components/post/model/postDao.service'
 
 // Angular 2 Material
 // import {MdRadioDispatcher} from '@angular2-material/radio/radio_dispatcher';
@@ -32,8 +35,8 @@ export const APPLICATION_PROVIDERS = [
   ...HTTP_PROVIDERS,
   ...ROUTER_PROVIDERS,
   ...MATERIAL_PROVIDERS,
+  ...API_PROVIDERS,
   Config,
-  PostDao,
   provide(LocationStrategy, { useClass: PathLocationStrategy }),
 ];
 

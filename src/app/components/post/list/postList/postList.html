@@ -1,0 +1,12 @@
+<div>
+  <button md-button (click)="reload.emit()">
+    Reload Posts
+  </button>
+</div>
+<div>
+  <post-list-item
+    *ngFor="#post of posts"
+    [post]="post"
+    (destroy)="destroy.emit($event)">
+  </post-list-item>
+</div>

@@ -9,8 +9,11 @@
   </div>
 </md-toolbar>
 <md-content>
-  <div *ngFor="#post of posts | async">
-    <post-list-item [post]="post" (destroyPost)="destroyPost($event)"></post-list-item>
-  </div>
+  <post-list
+    [posts]="posts.posts$ | async"
+    [loading]="posts.loading$ | async"
+    (destroy)="posts.destroy($event)"
+    (reload)="posts.reload()">
+  </post-list>
 </md-content>
 

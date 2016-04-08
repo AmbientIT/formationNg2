@@ -4,10 +4,8 @@
 import {Component} from 'angular2/core';
 import {RouteConfig, Router} from 'angular2/router';
 
-import {PostList} from './components/list/postList.component';
-import {PostEdit} from './components/edit/postEdit.component';
-
-import {PostDao} from './model/postDao.service';
+import {PostListRoute} from './list/postListRoute.component';
+import {PostEditRoute} from './edit/postEditRoute.component';
 
 /*
  * Post Component
@@ -15,28 +13,27 @@ import {PostDao} from './model/postDao.service';
 @Component({
   selector: 'post',
   template: require('./post.html'),
-  providers: [PostDao]
 })
 @RouteConfig([
   {
     path: '/list',
     name: 'PostList',
-    component: PostList,
+    component: PostListRoute,
     useAsDefault: true
   },
   {
     path: '/edit/:id',
     name: 'PostEdit',
-    component: PostEdit
+    component: PostEditRoute
   },
   {
     path: '/create',
     name: 'PostCreate',
-    component: PostEdit
+    component: PostEditRoute
   },
 ])
 export class Post {
-  
+
 }
 
 /*

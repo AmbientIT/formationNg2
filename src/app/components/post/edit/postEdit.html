@@ -1,0 +1,6 @@
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    {{ title }}
+  </div>
+</md-toolbar>
+<post-form [post]="post$ | async" (submit)="save($event)"></post-form>

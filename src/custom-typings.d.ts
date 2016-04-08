@@ -117,3 +117,17 @@ interface Thenable<T> {
     onRejected?: (error: any) => void): Thenable<U>;
   catch<U>(onRejected?: (error: any) => U | Thenable<U>): Thenable<U>;
 }
+
+
+declare module Normalizr {
+  export class Schema {
+    constructor(name: String)
+    define(schema: any):any
+  }
+  export function arrayOf(obj: any);
+  export function normalize(obj: Object, schema: any);
+}
+
+declare module 'normalizr' {
+  export = Normalizr
+}

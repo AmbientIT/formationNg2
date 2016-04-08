@@ -9,7 +9,7 @@
     </md-card-title-media>
   </md-card-title>
   <md-card-actions layout="row" layout-align="end center">
-    <button md-button (click)="destroy($event)">Remove</button>
+    <button md-button (click)="destroy.emit(post.id)">Remove</button>
     <button md-button (click)="edit(post.id)">Edit</button>
     <button md-button>detail</button>
   </md-card-actions>
